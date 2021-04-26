@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
   
   def index
+    @pages = Pages.order('position ASC')
   end
 
   def show
