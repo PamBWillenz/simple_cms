@@ -7,20 +7,16 @@
     <tr class="header">
       <th>#</th>
       <th>Subject</th>
-      <th>Visible</th>
       <th>Pages</th>
+      <th>Visible</th>
       <th>Actions</th>
     </tr>
     <% @pages.each do |page| %>
     <tr>
-      <td><%= page.subject_id %></td>
-      <td><%= page.name %></td>
-      <td><%= page.permalink %></td>
       <td><%= page.position %></td>
-      <td><%= page.visible %></td>
-      <td><%= page.content %></td>
+      <td><%= page.subject.name %></td>
+      <td><%= page.name %></td>      
       <td class="center"><%= page.visible ? 'Yes' : 'No' %></td>
-      
       <td class="actions">
         <%= link_to("Show", page_path(page), :class => 'action show') %>
         <%= link_to("Edit", edit_page_path(page), :class => 'action edit') %>
