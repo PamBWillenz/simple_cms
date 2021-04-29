@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   
   def index
-    @pages = Pages.order('position ASC')
+    @pages = Page.order('position ASC')
   end
 
   def show
@@ -31,6 +31,7 @@ class PagesController < ApplicationController
       redirect_to(page_path(@page))
     else
       render('edit')
+    end
   end
 
   def delete
@@ -48,5 +49,4 @@ class PagesController < ApplicationController
   def page_params
     params.require(:page).permit(:subject_id, :name, :permalink, :position, :visible, :content)
   end
-
 end
