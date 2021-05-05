@@ -1,6 +1,6 @@
 class Subject < ApplicationRecord
 
-  has_many :pages
+  has_many :pages, :dependent => :destroy
 
   scope :visible, lambda { where(visible: true) }
   scope :invisible, lambda { where(visible: false) }
@@ -14,12 +14,17 @@ class Subject < ApplicationRecord
   validates :position, :presence => true,
             :numericality => {:greater_than =>0}
 
+  before_validation :titleize_name          
   after_create :log_create
   after_update :log_update, if: Proc.new {|s| s.position == 1}
-  after_save :log_save
+  after_save :log_save, if: Proc.new {|s| s.pages.visible.any? }
   after_commit :cleaning_reminder, :if => :too_many_records?
 
-  private
+  private 
+
+  def titleize_name
+    self.name = name.titleize
+  end
 
   def log_create
     logger.info("Subject ID #{id} was created")
