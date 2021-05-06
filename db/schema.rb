@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_05_201748) do
+ActiveRecord::Schema.define(version: 2021_05_05_212953) do
 
   create_table "departments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
@@ -23,6 +23,18 @@ ActiveRecord::Schema.define(version: 2021_05_05_201748) do
     t.bigint "user_id", null: false
     t.index ["department_id", "user_id"], name: "index_departments_users_on_department_id_and_user_id"
     t.index ["user_id", "department_id"], name: "index_departments_users_on_user_id_and_department_id"
+  end
+
+  create_table "page_assignments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "page_id", null: false
+    t.bigint "user_id", null: false
+    t.string "role"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["page_id", "user_id"], name: "index_page_assignments_on_page_id_and_user_id"
+    t.index ["page_id"], name: "index_page_assignments_on_page_id"
+    t.index ["user_id", "page_id"], name: "index_page_assignments_on_user_id_and_page_id"
+    t.index ["user_id"], name: "index_page_assignments_on_user_id"
   end
 
   create_table "pages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -53,4 +65,6 @@ ActiveRecord::Schema.define(version: 2021_05_05_201748) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "page_assignments", "pages"
+  add_foreign_key "page_assignments", "users"
 end
